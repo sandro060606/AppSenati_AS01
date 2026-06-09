@@ -29,9 +29,9 @@ import org.json.JSONObject;
 
 public class RecepcionFragment extends Fragment {
 
-    Button btnBuscarHerramienta;
+    Button btnBuscarHerramienta, btnActualizar;
     RequestQueue requestQueue; //Cola de solicitudes
-    String condicion = "", tipo = ""; //RadioButton
+    String condicionActual = "", tipoActual = ""; //RadioButton
     EditText edtIdHerramientaB, edtNombreB, edtMarcaB, edtDescripcionB;
     RadioButton rbtBuenoB, rbtRegularB, rbtMaloB;  //Condicion
     RadioButton rbtManualB, rbtElectricaB;        //Tipo
@@ -114,45 +114,119 @@ public class RecepcionFragment extends Fragment {
                 }
 
         );
-
         requestQueue.add(jsonObjectRequest);
-
     }
 
     private void seleccionarTipo(String tipo) {
+        rgTipoB.clearCheck();
+
         rbtManualB.setChecked(false);
         rbtElectricaB.setChecked(false);
 
-        if (tipo.equals("Manual")) {
-            rbtManualB.setChecked(true);
-        }
-        if (tipo.equals("Electrica")) {
-            rbtElectricaB.setChecked(true);
-        }
+        if (tipo.equals("Manual")) { rbtManualB.setChecked(true); }
+        if (tipo.equals("Electrica")) { rbtElectricaB.setChecked(true); }
     }
 
     private void seleccionarCondicion(String condicion) {
+        rgCondicionB.clearCheck();
+
         rbtBuenoB.setChecked(false);
         rbtRegularB.setChecked(false);
         rbtMaloB.setChecked(false);
 
-        if (condicion.equals("Bueno")) {
-            rbtBuenoB.setChecked(true);
-        }
-        if (condicion.equals("Regular")) {
-            rbtRegularB.setChecked(true);
-        }
-        if (condicion.equals("Malo")) {
-            rbtMaloB.setChecked(true);
-        }
+        if (condicion.equals("Bueno")) { rbtBuenoB.setChecked(true); }
+        if (condicion.equals("Regular")) { rbtRegularB.setChecked(true); }
+        if (condicion.equals("Malo")) { rbtMaloB.setChecked(true); }
     }
 
+    private void ActualizarDatos() {
+        String id = edtIdHerramientaB.getText().toString().trim();
+        if (id.isEmpty()) {
+            Toast.makeText(getContext(), "Primero busque una herramienta", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        condicionActual = "";
+        if (rbtBuenoB.isChecked()) { condicionActual = "Bueno"; }
+        if (rbtRegularB.isChecked()) { condicionActual = "Regular"; }
+        if (rbtMaloB.isChecked()) { condicionActual = "Malo"; }
+
+        tipoActual = "";
+        if (rbtManualB.isChecked()) { tipoActual = "Manual"; }
+        if (rbtElectricaB.isChecked()) { tipoActual = "Electrica"; }
+
+        JSONObject datosEnviar = new JSONObject();
+        try {
+            datosEnviar.put("nombre", edtNombreB.getText().toString());
+            datosEnviar.put("marca", edtMarcaB.getText().toString());
+            datosEnviar.put("descripcion", edtDescripcionB.getText().toString());
+            datosEnviar.put("condicion", condicionActual);
+            datosEnviar.put("tipo", tipoActual);
+        } catch (Exception e) {
+            Log.e("ErrorJSON", e.toString());
+        }
+
+        String URLUpdate = URL + id;
+
+        requestQueue = Volley.newRequestQueue(requireContext().getApplicationContext());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.PUT,
+                URLUpdate,
+                datosEnviar,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            boolean success = response.getBoolean("success");
+                            String message = response.getString("message");
+                            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+
+                            if(success){
+                                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                resetUI();
+                            }
+                        } catch (Exception e) {
+                            Log.e("ErrorJSON", e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Cuando no realiza la operacion...
+                        NetworkResponse response = error.networkResponse;
+
+                        //Si existe un error
+                        if (response != null && response.data != null) {
+                            //STATUS CODE
+                            int statusCode = response.statusCode;
+                            //MESSAGE DETAIL
+                            String errorJSON = new String(response.data);
+
+                            Log.d("ErrorStatusCode", String.valueOf(statusCode));
+                            Log.d("ErrorDetallado", errorJSON);
+                        }
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void resetUI() {
+        edtNombreB.getText().clear();
+        edtMarcaB.getText().clear();
+        edtDescripcionB.getText().clear();
+        rgCondicionB.clearCheck();
+        rgTipoB.clearCheck();
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         btnBuscarHerramienta = view.findViewById(R.id.btnBuscarHerramienta);
+        btnActualizar = view.findViewById(R.id.btnActualizar);
 
         edtIdHerramientaB = view.findViewById(R.id.edtIdHerramientaB);
         edtNombreB = view.findViewById(R.id.edtNombreB);
@@ -171,6 +245,13 @@ public class RecepcionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 BuscarHerramienta();
+            }
+        });
+
+        btnActualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActualizarDatos();
             }
         });
     }
