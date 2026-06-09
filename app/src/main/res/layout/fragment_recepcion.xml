@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f2f6">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="BUSCADOR DE HERRAMIENTAS"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/edtIdHerramientaB"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input"
+                android:hint="ID Herramienta"
+                android:layout_marginBottom="15dp"/>
+
+            <Button
+                android:id="@+id/btnBuscarHerramienta"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buscar" />
+
+        </LinearLayout>
+
+        <TextView
+            android:text="Datos de la Herramienta"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/edtNombreB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_input"
+            android:hint="Nombre"
+            android:padding="14dp" />
+
+        <EditText
+            android:id="@+id/edtMarcaB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_input"
+            android:hint="Marca"
+            android:padding="14dp" />
+
+        <EditText
+            android:id="@+id/edtDescripcionB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_input"
+            android:hint="Descripcion"
+            android:padding="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Condicion:" />
+
+        <RadioGroup
+            android:id="@+id/rgCondicionB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbtBuenoB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Bueno" />
+
+            <RadioButton
+                android:id="@+id/rbtRegularB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Regular" />
+
+            <RadioButton
+                android:id="@+id/rbtMaloB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Malo" />
+
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tipo:" />
+
+        <RadioGroup
+            android:id="@+id/rgTipoB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbtManualB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Manual" />
+
+            <RadioButton
+                android:id="@+id/rbtElectricaB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Electrica" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</ScrollView>
