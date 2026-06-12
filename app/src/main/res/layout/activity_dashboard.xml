@@ -3,34 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
+    android:orientation="vertical"
     tools:context=".DashboardActivity">
 
     <!--Toolbar = barra superior de herramientas-->
     <com.google.android.material.appbar.MaterialToolbar
-        app:title="SENATI APP"
-        android:background="#0984e3"
-        app:titleTextColor="#FFF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#0984e3"
+        app:title="SENATI APP"
+        app:titleTextColor="#FFF" />
 
     <!--tabLayout (pestaña capas)-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#FFF"
         app:tabIndicatorColor="#000"
         app:tabSelectedTextColor="#000"
-        app:tabTextColor="#2d3436"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        app:tabTextColor="#2d3436" />
 
     <!--Contenedor de Fragmentos-->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
